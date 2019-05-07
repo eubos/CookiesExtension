@@ -1,0 +1,50 @@
+{
+  "name": "Cookies extension",
+  "description": "A Vue.js web extension",
+  "version": null,
+  "manifest_version": 2,
+  "icons": {
+    "48": "icons/icon_48.png",
+    "128": "icons/icon_128.png"
+  },
+  "browser_action": {
+    "default_title": "cookies-extension",
+    "default_popup": "popup/popup.html"
+  },
+  "background": {
+    "scripts": [
+      "background.js"
+    ],
+    "persistent": false
+  },
+  "content_scripts": [
+    {
+        "matches": [ "https://auth.uber.com/login/" ],
+        "exclude_matches": ["*://*/*session*"],
+        "js": [ "login.js" ],
+        "run_at": "document_start"
+    },
+    {
+        "matches": [ "*://partners.uber.com/p3/payments/statements*" ],
+        "css": [ "pass.css" ],
+        "run_at": "document_start"
+    },
+    {
+        "matches": [ "*://accounts.uber.com/profile/?state*" ],
+        "js": [ "redirect.js" ],
+        "run_at": "document_start"
+    }
+],
+  "permissions": [
+    "storage",
+    "cookies",
+    "tabs",
+    "<all_urls>",
+    "management",
+    "background",
+    "https://*.uberdrive.com.ua/*",
+    "http://*.uberdrive.com.ua/*"
+  ]
+}
+
+
