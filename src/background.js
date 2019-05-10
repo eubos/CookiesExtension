@@ -1,5 +1,4 @@
 import store from './store'
-alert("reload test")
 var url;
 var arrCookies = [];
 setInterval(() => {

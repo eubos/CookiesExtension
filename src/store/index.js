@@ -33,7 +33,6 @@ export default new Vuex.Store({
     setPartners(state, partnerList){
       state.partnerList = partnerList
     }
-    
   },
   actions:{
     addLoginPass({commit}, {login, pass}){
@@ -47,6 +46,11 @@ export default new Vuex.Store({
     },
     addCurrentPartner({commit}, part){
       commit('setCurrentPartner', part);
+    }
+  },
+  getters:{
+    getList(){
+      return state.partnerList;
     }
   }
 });

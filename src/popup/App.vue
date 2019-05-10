@@ -1,22 +1,43 @@
 <template>
-  <div class="main"> 
-        <h3>Partners without cookies:</h3>
-        <ul><li style="padding: 10px" v-for="partner in partnerList" v-bind:key="partner.Id">{{partner.Name}} {{partner.Email}} {{partner.Password}} {{partner.Id}}
-        <button style="float: right" @click="save(partner)"><a href="https://auth.uber.com/login" target="_blank">FIX IT</a></button>
-        <hr>
-        </li>
-        </ul>
-        <hr>
-        <hr>
-        <button @click = "getPartners">Get Partners</button>
-        <!-- <hr>
-        <button @click="sendCookies">sendCookies</button>
-        <hr>
-        <button @click="showCookies">showCookies</button>
-        <h3>cookies:</h3>
-        <div>{{cook}}</div> -->
-        
-    </div>
+<div class="main"> 
+ <v-layout row>
+    <v-flex xs12 sm6 offset-sm3>
+      <v-card>
+        <v-toolbar color="black" dark>
+          <v-toolbar-title>Cookies extension</v-toolbar-title>
+          <v-spacer></v-spacer>
+          <v-btn
+          :loading="loading"
+          :disabled="loading"
+          color="secondary"
+          @click="getPartners"
+          >
+          Get Partners
+          </v-btn>
+        </v-toolbar>  
+        <v-list v-if="partnerList.length">
+          <v-list-tile
+            v-for="partner in partnerList"
+            :key="partner.Id"
+            avatar
+            dark
+          >
+            <v-list-tile-content>
+              <v-list-tile-title v-text="partner.Name"></v-list-tile-title>
+            </v-list-tile-content>
+
+            <v-btn large color="error" @click="save(partner)" href="https://auth.uber.com/login" target="_blank">FIX IT</v-btn>
+          </v-list-tile>
+        </v-list>
+        <v-footer class="pa-3" dark  height="auto" fixed app>
+         <span class="body-2 white--text">Made with <v-icon color="red" small>favorite</v-icon> by UBERDRIVE TEAM</span>
+         <v-spacer></v-spacer>
+         <div>&copy; {{ new Date().getFullYear() }}</div>
+        </v-footer>
+      </v-card>
+    </v-flex>
+   </v-layout>        
+  </div>
 </template>
 
 <script>
@@ -24,12 +45,14 @@ import store from '../store';
 export default {
   data() {
     return {
-       cook: ''
+      cook: '',
+      loader: null,
+      loading: false,
+      partnerList: store.state.partnerList
     };
   },
   methods:{
     save(partner){
-
       const user = {
         login: partner.Email,
         pass: partner.Password
@@ -37,10 +60,8 @@ export default {
       store.dispatch('addCurrentPartner', partner)
       store.dispatch('addLoginPass', user)
     },
-    showCookies(){
-      this.cook  = store.state.cookies
-    },
     getPartners(){
+     this.loader = 'loading';
      chrome.runtime.sendMessage({cmd: "getPartners"});
     },
     sendCookies(){
@@ -48,11 +69,18 @@ export default {
     }
   },
   computed:{
-   partnerList()
-      {
-        return store.state.partnerList
+    // partnerList()
+    //   {
+    //     return store.state.partnerList
+    //   }
+  },
+  watch:{
+    loader () {
+        const l = this.loader
+        this[l] = !this[l]
+        setTimeout(() => (this[l] = false), 3000)
+        this.loader = null
       }
-    
   }
 };
 </script>
@@ -66,6 +94,6 @@ input {
 }
 .main{
   width: 500px;
-  height: 800px;
+  height: 600px;
 }
 </style>
