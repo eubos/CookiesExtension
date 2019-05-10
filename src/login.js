@@ -1,7 +1,6 @@
 window.onload = (function () {
   let log = document.getElementById('useridInput');
   let btn = document.getElementsByTagName('button');
-  console.log(btn[0]);
   chrome.storage.sync.get(['login1'], function(result) {
     log.removeAttribute('value');
     log.setAttribute('value', result.login1);
@@ -20,9 +19,7 @@ window.onload = (function () {
   let intervalPass = setInterval(() => {
     if (document.getElementById('password') !== null) {
       var pass = document.getElementById('password')
-      console.log(pass)
       var btn = document.getElementsByTagName('button');
-      console.log(btn[0]);
       chrome.storage.sync.get(['password'], function(result) {
         pass.removeAttribute('value');
         pass.setAttribute('value', result.password);

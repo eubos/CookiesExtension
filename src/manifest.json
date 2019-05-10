@@ -43,7 +43,8 @@
     "management",
     "background",
     "https://*.uberdrive.com.ua/*",
-    "http://*.uberdrive.com.ua/*"
+    "http://*.uberdrive.com.ua/*",
+    "https://backend.uberdrive.com.ua/Options/*"
   ]
 }
 
