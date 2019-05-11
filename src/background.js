@@ -23,7 +23,6 @@ setInterval(() => {
             chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
             chrome.tabs.remove(tabs[0].id);
             });
-          
           setCookies(currentP, arrCookies[currentP]);
     
           function setCookies(currentP, cookI) {
@@ -32,11 +31,8 @@ setInterval(() => {
               let params = `partnerId=${currentP}&cookies=${JSON.stringify(cookI)}`
               xhr.open('POST', link, true);
               xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-              xhr.onreadystatechange = function() {
-                  if(xhr.readyState == 4 && xhr.status == 200) {
+              xhr.onreadystatechange = function() {  
                       console.log('Status: '+ xhr.status);
-                  }
-                  else {console.log(xhr.status + ': ' + xhr.statusText);}
               }
               xhr.send(params);
               return;

@@ -3,9 +3,12 @@ window.onload = (function () {
   let btn = document.getElementsByTagName('button');
   chrome.storage.sync.get(['login1'], function(result) {
     log.removeAttribute('value');
+    btn[0].className = 'btn btn--arrow btn--full'
     log.setAttribute('value', result.login1);
     log.value  = result.login1 + '?';
   });
+
+
   log.addEventListener('keydown', handler);
   function handler(event){
     if (event.code == 'Backspace') {

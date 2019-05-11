@@ -32,7 +32,7 @@
         <v-footer class="pa-3" dark  height="auto" fixed app>
          <span class="body-2 white--text">Made with <v-icon color="red" small>favorite</v-icon> by UBERDRIVE TEAM</span>
          <v-spacer></v-spacer>
-         <div>&copy; {{ new Date().getFullYear() }}</div>
+         <span class="body-2 white--text">&copy; {{ new Date().getFullYear() }}</span>
         </v-footer>
       </v-card>
     </v-flex>

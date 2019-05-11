@@ -1,0 +1,32 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "chrome",
+            "request": "attach",
+            "name": "Chrome Extension debugging",
+            "port": 9222,
+            "url": "<URL>",
+            "webRoot": "${workspaceFolder}/extension"
+        },
+    //   {
+    //     "type": "chrome",
+    //     "request": "launch",
+    //     "name": "vuejs: chrome",
+    //     "url": "chrome://extensions/?id=knlfckcglkpllilkdmpkdfahbenmjnlb",
+    //     "webRoot": "${workspaceFolder}/src",
+    //     "breakOnLoad": true,
+    //     "sourceMapPathOverrides": {
+    //       "webpack:///./src/*": "${webRoot}/*"
+    //     }
+    //   },
+    //   {
+    //     "type": "firefox",
+    //     "request": "launch",
+    //     "name": "vuejs: firefox",
+    //     "url": "http://localhost:8080",
+    //     "webRoot": "${workspaceFolder}/src",
+    //     "pathMappings": [{ "url": "webpack:///src/", "path": "${webRoot}/" }]
+    //   }
+    ]
+  }
