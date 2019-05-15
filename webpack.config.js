@@ -14,7 +14,8 @@ const config = {
     'background': './background.js',
     'popup/popup': './popup/popup.js',
     'login': './login.js',
-    'redirect': './redirect.js'
+    'redirect': './redirect.js',
+    'hidden': './hidden.js'
   },
   output: {
     path: __dirname + '/dist',

@@ -1,12 +1,15 @@
 import store from './store'
 var url;
 var arrCookies = [];
+
 setInterval(() => {
+  console.log(store.state.isEnabled)
+  if (store.state.isEnabled) {
   chrome.tabs.query({'active': true, 'lastFocusedWindow': true}, function (tabs) {
     if (tabs.length!=0) {
       url = tabs[0].url.substr(0, 48);
       console.log('trying get cookies')
-      if (url == 'https://partners.uber.com/p3/payments/statements') {
+      if (url == 'https://partners.uber.com/p3/payments/statements' || url == 'https://partners.uber.com/p3/payments/weekly-ear') {
         var currentP = localStorage.getItem('partnerId');
         chrome.cookies.getAll({url: url}, function(cookie) {
           arrCookies[currentP] = [];
@@ -27,7 +30,8 @@ setInterval(() => {
     
           function setCookies(currentP, cookI) {
               let xhr = new XMLHttpRequest();
-              let link = 'https://backend.uberdrive.com.ua/Options/EditPartnerCookie';
+              //let link = 'https://backend.uberdrive.com.ua/Options/EditPartnerCookie';
+              let link = 'https://backend.uberdrive.com.ua/Options/EditPartnerCookieAndRestart';
               let params = `partnerId=${currentP}&cookies=${JSON.stringify(cookI)}`
               xhr.open('POST', link, true);
               xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
@@ -42,7 +46,9 @@ setInterval(() => {
       }
     }
   });
+}
 }, 1000);
+
 
 chrome.runtime.onMessage.addListener(function (request) {
   if (request.cmd === "getPartners") {
@@ -61,6 +67,7 @@ chrome.runtime.onMessage.addListener(function (request) {
             alert("Некорректный ответ " + e.message);
           }
           showPartners(partners);
+          reloadExtension();
         }
       }
       xhr.send();
@@ -68,7 +75,7 @@ chrome.runtime.onMessage.addListener(function (request) {
     function showPartners(partners) {
       store.dispatch('addPartners', partners);
     }
+    function reloadExtension(){
+      //chrome.runtime.reload();
+    }
 }});
-
-
-

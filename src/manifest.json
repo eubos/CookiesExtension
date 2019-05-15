@@ -26,7 +26,7 @@
     },
     {
         "matches": [ "*://partners.uber.com/p3/payments/statements*" ],
-        "css": [ "pass.css" ],
+        "css": [ "hidden.js" ],
         "run_at": "document_start"
     },
     {

@@ -6,10 +6,11 @@ Vue.use(Vuex);
 export default new Vuex.Store({
   plugins: [createPersistedState()],
   state: {
+    isEnabled: true,
     pass: '',
     login: '',
     cookies: '',
-    partnerList: ''
+    partnerList: []
   },
   mutations:{
     setState(state, {login, pass}){
@@ -32,6 +33,9 @@ export default new Vuex.Store({
     },
     setPartners(state, partnerList){
       state.partnerList = partnerList
+    },
+    setOnOff(state, flag){
+      state.isEnabled = flag
     }
   },
   actions:{
@@ -46,11 +50,12 @@ export default new Vuex.Store({
     },
     addCurrentPartner({commit}, part){
       commit('setCurrentPartner', part);
+    },
+    setEnable({commit}, flag){
+      commit('setOnOff', flag)
     }
   },
   getters:{
-    getList(){
-      return state.partnerList;
-    }
+    getPartners: state => () => state.partnerList
   }
 });
