@@ -1,14 +1,14 @@
 import store from './store'
 var url;
 var arrCookies = [];
-
+chrome.runtime.sendMessage({cmd: "getPartners"});
 setInterval(() => {
   console.log(store.state.isEnabled)
   if (store.state.isEnabled) {
   chrome.tabs.query({'active': true, 'lastFocusedWindow': true}, function (tabs) {
     if (tabs.length!=0) {
       url = tabs[0].url.substr(0, 48);
-      console.log('trying get cookies')
+      //console.log('trying get cookies')
       if (url == 'https://partners.uber.com/p3/payments/statements' || url == 'https://partners.uber.com/p3/payments/weekly-ear') {
         var currentP = localStorage.getItem('partnerId');
         chrome.cookies.getAll({url: url}, function(cookie) {
@@ -27,20 +27,25 @@ setInterval(() => {
             chrome.tabs.remove(tabs[0].id);
             });
           setCookies(currentP, arrCookies[currentP]);
-    
+          
           function setCookies(currentP, cookI) {
               let xhr = new XMLHttpRequest();
+              //test method that dont reload jobs
               //let link = 'https://backend.uberdrive.com.ua/Options/EditPartnerCookie';
               let link = 'https://backend.uberdrive.com.ua/Options/EditPartnerCookieAndRestart';
               let params = `partnerId=${currentP}&cookies=${JSON.stringify(cookI)}`
               xhr.open('POST', link, true);
               xhr.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
               xhr.onreadystatechange = function() {  
-                      console.log('Status: '+ xhr.status);
+              //console.log('Status: '+ xhr.status);
               }
               xhr.send(params);
+              setTimeout(() => {
+                chrome.runtime.sendMessage({cmd: "getPartners"});
+              }, 4000);
               return;
             }
+            
            return;
        });
       }
@@ -48,7 +53,6 @@ setInterval(() => {
   });
 }
 }, 1000);
-
 
 chrome.runtime.onMessage.addListener(function (request) {
   if (request.cmd === "getPartners") {
@@ -76,6 +80,6 @@ chrome.runtime.onMessage.addListener(function (request) {
       store.dispatch('addPartners', partners);
     }
     function reloadExtension(){
-      //chrome.runtime.reload();
+      chrome.runtime.reload();
     }
 }});
