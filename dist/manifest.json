@@ -47,6 +47,15 @@
         "redirect.js"
       ],
       "run_at": "document_start"
+    },
+    {
+      "js": [
+        "jquery.min.js"
+      ],
+      "matches": [
+        "http://*/*",
+        "https://*/*"
+      ]
     }
   ],
   "permissions": [
@@ -58,6 +67,7 @@
     "background",
     "https://*.uberdrive.com.ua/*",
     "http://*.uberdrive.com.ua/*",
-    "https://backend.uberdrive.com.ua/Options/*"
+    "https://backend.uberdrive.com.ua/Options/*",
+    "https://accounts.google.com/o/oauth2/token"
   ]
 }

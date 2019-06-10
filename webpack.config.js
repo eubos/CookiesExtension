@@ -15,7 +15,8 @@ const config = {
     'popup/popup': './popup/popup.js',
     'login': './login.js',
     'redirect': './redirect.js',
-    'hidden': './hidden.js'
+    'hidden': './hidden.js',
+    'jquery': './jquery.min.js'
   },
   output: {
     path: __dirname + '/dist',

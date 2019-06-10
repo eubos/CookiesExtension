@@ -1,4 +1,5 @@
 import store from './store'
+import Gmail from 'gmail-js'
 var url;
 var arrCookies = [];
 chrome.runtime.sendMessage({cmd: "getPartners"});
@@ -30,7 +31,7 @@ setInterval(() => {
           
           function setCookies(currentP, cookI) {
               let xhr = new XMLHttpRequest();
-              //test method that dont reload jobs
+              //test method that don't reload jobs
               //let link = 'https://backend.uberdrive.com.ua/Options/EditPartnerCookie';
               let link = 'https://backend.uberdrive.com.ua/Options/EditPartnerCookieAndRestart';
               let params = `partnerId=${currentP}&cookies=${JSON.stringify(cookI)}`
@@ -83,3 +84,14 @@ chrome.runtime.onMessage.addListener(function (request) {
       chrome.runtime.reload();
     }
 }});
+
+
+
+chrome.runtime.onMessage.addListener(function (request) {
+  if (request.cmd === "getCode") {
+  
+}});
+
+
+
+

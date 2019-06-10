@@ -19,6 +19,11 @@
           >
           Get Partners
           </v-btn>
+          <v-btn
+          @click="getCode"
+          >
+          Get Code
+          </v-btn>
         </v-toolbar> 
         <v-list v-if="$store.state.partnerList && $store.state.isEnabled">
           <v-list-tile
@@ -76,6 +81,9 @@ export default {
     setEnabled(){
      store.dispatch('setEnable', store.state.isEnabled)
      chrome.runtime.reload();
+    },
+    getCode(){
+      chrome.runtime.sendMessage({cmd: "getCode"});
     }
   },
 

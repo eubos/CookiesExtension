@@ -12,6 +12,8 @@
   },
   "dependencies": {
     "css-loader": "^2.1.1",
+    "gmail-js": "^0.9.7",
+    "jquery": "^3.4.1",
     "style-loader": "^0.23.1",
     "vue": "^2.5.17",
     "vuetify": "^1.5.14",
