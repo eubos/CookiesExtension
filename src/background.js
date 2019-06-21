@@ -22,7 +22,8 @@ var url;
 var arrCookies = [];
 setTimeout(() => {
   loadPartners2();
-}, timeout);
+}, 1000);
+
 chrome.browserAction.setBadgeText({'text': store.state.partnerList.length+''}, function(){
 })
 chrome.runtime.sendMessage({cmd: "getPartners"});
@@ -183,6 +184,8 @@ chrome.runtime.onMessage.addListener(function (request) {
         clearInterval(interval);
         return;
       }
+      chrome.browserAction.setBadgeText({'text': store.state.partnerList.length+''}, function(){
+      })
       console.log(store.state);
         const user = {
         login: store.state.partnerList[i].Email,
