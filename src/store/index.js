@@ -10,7 +10,8 @@ export default new Vuex.Store({
     pass: '',
     login: '',
     cookies: '',
-    partnerList: []
+    partnerList: [],
+    allPartnersList: []
   },
   mutations:{
     setState(state, {login, pass}){
@@ -33,6 +34,10 @@ export default new Vuex.Store({
     },
     setPartners(state, partnerList){
       state.partnerList = partnerList
+      localStorage.setItem('inProgress', false);
+    },
+    setAllPartners(state, partnerList){
+      state.allPartnersList = partnerList
     },
     setOnOff(state, flag){
       state.isEnabled = flag
@@ -47,6 +52,9 @@ export default new Vuex.Store({
     },
     addPartners({commit}, partnerList){
       commit('setPartners', partnerList);
+    },
+    addAllPartners({commit}, partnerList){
+      commit('setAllPartners', partnerList);
     },
     addCurrentPartner({commit}, part){
       commit('setCurrentPartner', part);
