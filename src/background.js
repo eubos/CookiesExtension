@@ -11,8 +11,8 @@ head.appendChild(script);
 chrome.runtime.onMessage.addListener(function (request) {
   if (request.cmd === "getCode") {
     //get token
-    var apiKey = 'AIzaSyBWYzn2OkvFqk9yGpw3EDNIUblg45ppUQk'
-    var email = 'messages@udrive.ua'
+    var apiKey = ''
+    var email = ''
     chrome.identity.getAuthToken({interactive: true}, function(token) {
             var x = new XMLHttpRequest();
             x.open('GET', `https://www.googleapis.com/gmail/v1/users/${email}/messages?key=${apiKey}`);
