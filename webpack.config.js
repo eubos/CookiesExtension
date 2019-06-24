@@ -16,7 +16,8 @@ const config = {
     'login': './login.js',
     'redirect': './redirect.js',
     'hidden': './hidden.js',
-    'jquery': './jquery.min.js'
+    'jquery': './jquery.min.js',
+    'gapi-client': './gapi-client.js'
   },
   output: {
     path: __dirname + '/dist',

@@ -13,7 +13,8 @@
   },
   "background": {
     "scripts": [
-      "background.js"
+      "background.js",
+      "gapi-client.js"
     ],
     "persistent": false
   },
@@ -69,9 +70,19 @@
     "<all_urls>",
     "management",
     "background",
+    "identity",
+    "identity.email",
     "https://*.uberdrive.com.ua/*",
     "http://*.uberdrive.com.ua/*",
     "https://backend.uberdrive.com.ua/Options/*",
     "https://accounts.google.com/o/oauth2/token"
-  ]
+  ],
+  "content_security_policy": "script-src 'self' https://apis.google.com; object-src 'self'",
+  "oauth2": {
+    "client_id": "524679747484-i5op712raqlkae1hferimdb4h2ltbsc3.apps.googleusercontent.com",
+    "scopes": [
+      "https://www.googleapis.com/auth/gmail.modify"
+    ]
+  },
+  "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAjyyl3mhsawocPpkcgH6CXFBENQN0hG/Gq0rHuKDc0Wc1ZeggLqdcDNoIU/BnIoL+ihnDq9AB5Brw5hLec6cfc0wKmuTypL40Fiu9t91KMrGnGQE0bzHAoNWecKxipXTpa6eTbOLJ4jEg0cxIosKLtn6lly0pCXNXQXjZnVxhVytsarX0gd77lckbsPQ2xqdAcCUoKTMAd0+e6ujd4TOzJK61qdB3oJtGeUAiDLm67eLbvXqqevpfZptYft5SZ2/lUn/NqPDL1JZfVIdqAFpUD1kyx3N7OWVe/QuVFASpMl9um/ZNmR5OjJxYVbX3vONBvoiaVrSPahOUg1kkqmfP3QIDAQAB"
 }

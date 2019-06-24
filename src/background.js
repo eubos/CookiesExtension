@@ -1,22 +1,39 @@
 import store from './store'
-import Gmail from 'gmail-js'
 
-// const jQuery = require("jquery");
-// const $ = jQuery;
-// const GmailFactory = require("gmail-js");
-// const gmail = new GmailFactory.Gmail($);
-// window.gmail = gmail;
-// gmail.observe.on("load", () => {
-//   const userEmail = gmail.get.user_email();
-//   console.log("Hello, " + userEmail + ". This is your extension talking!");
+var head = document.getElementsByTagName('head')[0];
+var script = document.createElement('script');
+script.type = 'text/javascript';
+script.src = "https://apis.google.com/js/api.js";
+head.appendChild(script);
 
-//   gmail.observe.on("view_email", (domEmail) => {
-//       console.log("Looking at email:", domEmail);
-//       const emailData = gmail.new.get.email_data(domEmail);
-//       console.log("Email data:", emailData);
-//   });
-// });
 
+
+chrome.runtime.onMessage.addListener(function (request) {
+  if (request.cmd === "getCode") {
+    //get token
+    var apiKey = 'AIzaSyBWYzn2OkvFqk9yGpw3EDNIUblg45ppUQk'
+    var email = 'messages@udrive.ua'
+    chrome.identity.getAuthToken({interactive: true}, function(token) {
+            var x = new XMLHttpRequest();
+            x.open('GET', `https://www.googleapis.com/gmail/v1/users/${email}/messages?key=${apiKey}`);
+            x.setRequestHeader('Authorization', 'Bearer ' + token);
+            x.setRequestHeader('Accept', 'application/json');
+            x.onreadystatechange = function() {
+              if (x.readyState != 4) return;
+              if (x.status != 200) {
+                alert(x.status + ': ' + x.statusText);
+              } else {
+                try {
+                  var messagesList = JSON.parse(x.responseText);
+                  console.log(messagesList);
+                } catch (e) {
+                  alert("Некорректный ответ " + e.message);
+                }
+              }
+            }
+            x.send();
+      })
+}})
 
 var url;
 var arrCookies = [];
@@ -164,11 +181,7 @@ chrome.runtime.onMessage.addListener(function (request) {
     }
 }});
 
-chrome.runtime.onMessage.addListener(function (request) {
-  if (request.cmd === "getCode") {
-    var gmail = Gmail();
-    console.log(gmail.get.user_email());
-}});
+
 
 chrome.runtime.onMessage.addListener(function (request) {
   if (request.cmd === "fixAll") {
