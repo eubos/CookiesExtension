@@ -1,37 +1,76 @@
 import store from './store'
 
-var head = document.getElementsByTagName('head')[0];
-var script = document.createElement('script');
-script.type = 'text/javascript';
-script.src = "https://apis.google.com/js/api.js";
-head.appendChild(script);
+// var head = document.getElementsByTagName('head')[0];
+// var script = document.createElement('script');
+// script.type = 'text/javascript';
+// script.src = "https://apis.google.com/js/api.js";
+// head.appendChild(script);
 
 
 
 chrome.runtime.onMessage.addListener(function (request) {
   if (request.cmd === "getCode") {
-    //get token
     var apiKey = 'AIzaSyBWYzn2OkvFqk9yGpw3EDNIUblg45ppUQk'
     var email = 'messages@udrive.ua'
+    var date = Math.round(Date.now()/1000);
+    console.log(date);
+    //console.log(date.getSeconds());
+    var filter = `%D0%92%D0%B0%D1%88%20%D0%BA%D0%BE%D0%B4%20Uber is:unread after:${date}`
+    var urlList = `https://www.googleapis.com/gmail/v1/users/${email}/messages?q=${filter}&key=${apiKey}`
+    //get token
     chrome.identity.getAuthToken({interactive: true}, function(token) {
-            var x = new XMLHttpRequest();
-            x.open('GET', `https://www.googleapis.com/gmail/v1/users/${email}/messages?key=${apiKey}`);
-            x.setRequestHeader('Authorization', 'Bearer ' + token);
-            x.setRequestHeader('Accept', 'application/json');
-            x.onreadystatechange = function() {
-              if (x.readyState != 4) return;
-              if (x.status != 200) {
-                alert(x.status + ': ' + x.statusText);
-              } else {
-                try {
-                  var messagesList = JSON.parse(x.responseText);
-                  console.log(messagesList);
-                } catch (e) {
-                  alert("Некорректный ответ " + e.message);
-                }
-              }
-            }
-            x.send();
+      //get unread list of messages from gmail with uber code
+        (function getGmail() {
+          
+         fetch(urlList, {
+          headers: new Headers({
+            'Authorization': 'Bearer ' + token,
+            'Accept': 'application/json'
+          })
+        }).then(
+              response=>response.json()
+                  .then(data=>({status: response.status, body: data})))
+                      .then(obj=>{console.log(obj)
+                        //get last unread message with uber code
+                        if (obj.body.resultSizeEstimate) {
+                          return fetch (`https://www.googleapis.com/gmail/v1/users/${email}/messages/${obj.body.messages[0].id}?format=full&key=${apiKey}`,{
+                            headers: new Headers({
+                              'Authorization': 'Bearer ' + token,
+                              'Accept': 'application/json'
+                          })})
+                        }
+                        else{
+                          console.log('else thread');
+                          setTimeout(() => {
+                            getGmail();
+                          }, 3000); 
+                        }
+
+                       }
+                      ).then(res=>res.json())
+                                .then(obje=>{console.log('console.log(obje)');console.log(obje.snippet)
+                                var code = obje.snippet.slice(-10);
+                                var r = /\d+/;
+                                code = code.match(r)
+                                console.log('console.log(code.match(r));');
+                                console.log(code[0]);
+                                localStorage.setItem('code', code[0])
+                                return fetch(`https://www.googleapis.com/gmail/v1/users/${email}/messages/${obje.id}/modify?key=${apiKey}`,{
+                                method: 'POST', 
+                                headers: new Headers({
+                                  'Authorization': 'Bearer ' + token,
+                                  'Accept': 'application/json',
+                                  'Content-Type': 'application/json',
+                                  'addLabelIds': ['UNREAD']
+                                }),
+                                body: JSON.stringify({'removeLabelIds': ['UNREAD']})
+                              })}).then(resp=>resp.json())
+                                      .then(data=> data)
+                                          .then(obj=>{console.log(obj)
+                                            localStorage.setItem('getMessageFlag', 1);
+                                          })
+.catch((error) => console.log('BOOOOOOOOoooOOOOoooOOooooooOOO',error))
+}())
       })
 }})
 

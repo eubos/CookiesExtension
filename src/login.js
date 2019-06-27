@@ -89,5 +89,33 @@ window.onload = (function () {
     //console.log('trying get id pass')
   }, 500);
 
+
+  let intervalCode = setInterval(() => {
+    if (document.getElementById('verificationCode') !== null) {
+      clearInterval(intervalCode);
+      chrome.runtime.sendMessage({cmd: "getCode"});
+      localStorage.setItem('getMessageFlag', 0);
+      let verificationCode = document.getElementById('verificationCode');
+      let btn = document.getElementsByTagName('button');
+      let intervalCode2 = setInterval(() => {
+        if (+localStorage.getItem('getMessageFlag') ===  1) {
+          clearInterval(intervalCode2)
+          let code = localStorage.getItem('code');
+          verificationCode.removeAttribute('value');
+          verificationCode.setAttribute('value', code);
+          verificationCode.value  = code;
+          verificationCode.dispatchEvent(new Event("change", { bubbles: true }));
+          verificationCode.dispatchEvent(new Event("blur", { bubbles: true }));
+          setTimeout(() => {
+            btn[0].click();
+            const recaptchaPass = document.getElementById('login-recaptcha');
+            recaptchaPass.style.visibility = "visible"
+            btn[0].style.visibility = "visible"
+          }, 500);  
+        }
+      }, 1000);
+    }
+  }, 3000);
+
 }
   

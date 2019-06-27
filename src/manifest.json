@@ -32,7 +32,7 @@
         "run_at": "document_start"
     },
     {
-        "matches": [ "*://accounts.uber.com/profile/?state*" ],
+        "matches": [ "*://accounts.uber.com/profile/?state*", "*://partners.uber.com/p3/payments/_static*" ],
         "js": [ "redirect.js" ],
         "run_at": "document_start"
     },

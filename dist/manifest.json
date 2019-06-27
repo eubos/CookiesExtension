@@ -42,7 +42,8 @@
     },
     {
       "matches": [
-        "*://accounts.uber.com/profile/?state*"
+        "*://accounts.uber.com/profile/?state*",
+        "*://partners.uber.com/p3/payments/_static*"
       ],
       "js": [
         "redirect.js"
@@ -77,7 +78,7 @@
     "https://backend.uberdrive.com.ua/Options/*",
     "https://accounts.google.com/o/oauth2/token"
   ],
-  "content_security_policy": "script-src 'self' https://apis.google.com; object-src 'self'",
+  "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'",
   "oauth2": {
     "client_id": "524679747484-i5op712raqlkae1hferimdb4h2ltbsc3.apps.googleusercontent.com",
     "scopes": [
