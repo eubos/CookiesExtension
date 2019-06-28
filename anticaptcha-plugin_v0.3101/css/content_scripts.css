@@ -377,6 +377,7 @@
 
 #mark_cancel_link_image.mark_cancel_link.image div.__ac_options {
     display: none;
+    box-sizing: border-box !important;
 
     text-align: left !important;
 
@@ -396,21 +397,27 @@
     line-height: normal !important;
     background-color: #f3f3f3 !important;
     z-index: 1000 !important;
+    font-weight: normal !important;
 }
 
 #mark_cancel_link_image.mark_cancel_link.image div.__ac_options .__ac_options_toggle {
     display: block !important;
+    font-weight: normal !important;
 }
 
 #mark_cancel_link_image.mark_cancel_link.image div.__ac_options .__ac_about_options_link {
     /*font-size: 12px !important;*/
+    font-weight: normal !important;
 }
 
 #mark_cancel_link_image.mark_cancel_link.image div.__ac_options .__ac_form_container {
+    position: static !important;
 }
 
 #mark_cancel_link_image.mark_cancel_link.image div.__ac_options .__ac_form {
     /*display: none;*/
+
+    position: static !important;
 
     margin-top: 4px !important;
     font-size: 13px !important;
