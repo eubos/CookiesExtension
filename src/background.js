@@ -1,5 +1,43 @@
 import store from './store'
 
+<<<<<<< HEAD
+=======
+var head = document.getElementsByTagName('head')[0];
+var script = document.createElement('script');
+script.type = 'text/javascript';
+script.src = "https://apis.google.com/js/api.js";
+head.appendChild(script);
+
+
+
+chrome.runtime.onMessage.addListener(function (request) {
+  if (request.cmd === "getCode") {
+    //get token
+    var apiKey = ''
+    var email = ''
+    chrome.identity.getAuthToken({interactive: true}, function(token) {
+            var x = new XMLHttpRequest();
+            x.open('GET', `https://www.googleapis.com/gmail/v1/users/${email}/messages?key=${apiKey}`);
+            x.setRequestHeader('Authorization', 'Bearer ' + token);
+            x.setRequestHeader('Accept', 'application/json');
+            x.onreadystatechange = function() {
+              if (x.readyState != 4) return;
+              if (x.status != 200) {
+                alert(x.status + ': ' + x.statusText);
+              } else {
+                try {
+                  var messagesList = JSON.parse(x.responseText);
+                  console.log(messagesList);
+                } catch (e) {
+                  alert("Некорректный ответ " + e.message);
+                }
+              }
+            }
+            x.send();
+      })
+}})
+
+>>>>>>> 68b1fdcbea392632293bb28be417f2c1b1af35f7
 var url;
 var arrCookies = [];
 setTimeout(() => {
